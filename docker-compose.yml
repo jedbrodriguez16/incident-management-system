@@ -1,14 +1,19 @@
 version: '2'
 services:
   ui:
-    build: ./ui
+    build: ui
     ports:
       - '3000:3000'
-    stdin_open: true # docker run -i, important to run react app
+    stdin_open: true # docker run -i, important property to set in order run react app in docker
     # tty: true      # docker run -t
     depends_on:
-      - api
-  api:
-    build: ./api
+      - incident
+      - identity
+  incident:
+    build: backend/api/incident
     ports:
       - '8080:8080'
+  identity:
+    build: backend/api/identity
+    ports:
+      - '8081:8081'
