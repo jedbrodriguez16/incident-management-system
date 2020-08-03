@@ -2,4 +2,4 @@
 /ui/node_modules
 /backend/api/incident/node_modules
 /backend/api/identity/node_modules
-/backend/api/node_modules
+/backend/node_modules
