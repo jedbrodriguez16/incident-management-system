@@ -4,4 +4,5 @@ export default interface IIncidentRepository {
   getList(): Promise<IncidentModel[]>;
   getById(id: string): Promise<IncidentModel>;
   add(model: IncidentModel): Promise<IncidentModel>;
+  delete(id: string): Promise<IncidentModel>;
 }

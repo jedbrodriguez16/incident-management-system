@@ -81,6 +81,19 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
         });
       }
 
+      protected remove(id: string, rev: string): Promise<any> {
+        return db.destroy(id, rev)
+            .then((res) => {
+                return {
+                    id: res.id,
+                    rev: res.rev
+                };
+            })
+            .catch(err => {
+              return Promise.reject(err);
+            });
+    }
+
   private _buildParams(query: ViewQuery): any {
     let params: any = {};
     if (_.isArray(query.key)) {

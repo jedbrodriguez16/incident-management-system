@@ -1,6 +1,6 @@
 import * as _ from "underscore";
 import { inject } from "inversify";
-import { controller, httpGet, httpPost } from "inversify-express-utils";
+import { controller, httpGet, httpPost, httpDelete } from "inversify-express-utils";
 import * as express from "express";
 
 import IIncidentService from "../services/IIncidentService";
@@ -34,5 +34,12 @@ export class IncidentController {
   public createIncident(req: express.Request) {
     let incident: IncidentDto = req.body;
     return this._incidentService.upsertIndicent(incident);
+  }
+
+  @httpDelete("/:id")
+  public deleteIncident(req: express.Request) {
+    let params: any = req.params || {};
+    let id = params.id;
+    return this._incidentService.deleteIncident(id);
   }
 }

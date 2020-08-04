@@ -30,4 +30,9 @@ export default class IncidentService extends ServiceBase implements IIncidentSer
     let incident = await this._incidentRepository.add(plainToClass(IncidentModel, dto))
     return this.toDto(incident);
   }
+
+  public async deleteIncident(id: string): Promise<IncidentDto> {
+    let incident = await this._incidentRepository.delete(id);
+    return this.toDto(incident);
+  }
 }

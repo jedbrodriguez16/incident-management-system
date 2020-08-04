@@ -40,4 +40,9 @@ export default class IncidentRepository extends CouchDbRepositoryBase
   public add(model: IncidentModel): Promise<IncidentModel> {
     return super.save(model);
   }
+
+  public async delete(id: string): Promise<IncidentModel> {
+    let incident = await this.getById(id);
+    return super.remove(incident.id, incident.rev);
+  }
 }
