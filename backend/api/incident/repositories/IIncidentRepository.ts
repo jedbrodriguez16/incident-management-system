@@ -1,3 +1,6 @@
+import IncidentModel from "./models/IncidentModel";
+
 export default interface IIncidentRepository {
-  findAll(): Promise<any>;
+  getList(): Promise<IncidentModel[]>;
+  getById(id: string): Promise<IncidentModel>;
 }

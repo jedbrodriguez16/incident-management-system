@@ -10,6 +10,10 @@ export default class IncidentService implements IIncidentService {
   private readonly _incidentRepository: IIncidentRepository;
 
   public getIncidentList(): Promise<IncidentDto[]> {
-    return this._incidentRepository.findAll();
+    return this._incidentRepository.getList();
+  }
+
+  public getIncident(id: string): Promise<IncidentDto> {
+    return this._incidentRepository.getById(id);
   }
 }

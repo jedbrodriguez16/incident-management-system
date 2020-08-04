@@ -4,8 +4,18 @@ import IncidentModel from "../models/IncidentModel";
 import {
   CouchDbRepositoryBase,
   ViewQuery,
-  ViewSortingEnum
+  ViewSortingEnum,
 } from "../../../../common/repositories/CouchDbRepositoryBase";
+
+enum ViewDocNameEnum {
+  Incident = "incident"
+}
+
+enum ViewIndexNameEnum {
+  Assignee = "by-assignee",
+  Date = "by-date",
+  Status = "by-status"
+}
 
 @injectable()
 export default class IncidentRepository extends CouchDbRepositoryBase
@@ -14,8 +24,16 @@ export default class IncidentRepository extends CouchDbRepositoryBase
     return IncidentModel;
   }
 
-  public async findAll(): Promise<IncidentModel[]> {
-    let query = new ViewQuery("incident", "by-date", null, ViewSortingEnum.desc);
+  public async getList(): Promise<IncidentModel[]> {
+    let query = new ViewQuery(
+      ViewDocNameEnum.Incident,
+      ViewIndexNameEnum.Date,
+      ViewSortingEnum.desc
+    );
     return super.findAll(query);
+  }
+
+  public async getById(id: string): Promise<IncidentModel> {
+    return super.findOne(id);
   }
 }

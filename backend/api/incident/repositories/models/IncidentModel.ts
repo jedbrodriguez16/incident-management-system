@@ -6,6 +6,6 @@ export default class IncidentModel {
   assignedTo: string;
   createdDate: Date;
   createdBy: string;
-  updateDate: Date;
-  updatedBy: string
+  updatedDate: Date;
+  updatedBy: string;
 }

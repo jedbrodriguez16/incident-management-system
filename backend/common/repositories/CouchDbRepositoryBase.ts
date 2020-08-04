@@ -6,16 +6,16 @@ import * as _ from "underscore";
 
 export class ViewQuery {
   constructor(
-    public designName: string,
-    public viewName: string,
-    public key?: string | string[],
+    public docName?: string,
+    public indexName?: string,
     public sort: ViewSortingEnum = ViewSortingEnum.asc,
+    public key?: string | string[]
   ) {}
 }
 
 export enum ViewSortingEnum {
   asc,
-  desc
+  desc,
 }
 
 //todo: inject nano
@@ -26,20 +26,41 @@ const db = n.db.use("incidents");
 export abstract class CouchDbRepositoryBase extends RepositoryBase {
   protected async findAll(query: ViewQuery): Promise<any[]> {
     return db
-      .view(query.designName, query.viewName, this._buildParams(query))
+      .view(query.docName, query.indexName, this._buildParams(query))
       .then((res) => {
         return res.rows.map((row) => {
           let doc = row.doc;
           delete doc._id;
           delete doc._rev;
 
-          let incidentModel = plainToClass(this.getModelClass(), {
+          let model = plainToClass(this.getModelClass(), {
             id: row.id,
             ...doc,
           });
 
-          return incidentModel;
+          return model;
         });
+      })
+      .catch((err) => {
+        return Promise.reject(err);
+      });
+  }
+
+  protected async findOne(id: string): Promise<any> {
+    return db
+      .get(id)
+      .then((row: any) => {
+        row.id = row._id;
+        // row.rev = row._rev;
+        delete row._id;
+        delete row._rev;
+
+        let model = plainToClass(this.getModelClass(), {
+          id: row._id,
+          ...row,
+        });
+
+        return model;
       })
       .catch((err) => {
         return Promise.reject(err);

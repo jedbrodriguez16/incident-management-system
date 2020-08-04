@@ -21,4 +21,11 @@ export class IncidentController {
     console.log("request ", req.baseUrl);
     return this._incidentService.getIncidentList();
   }
+
+  @httpGet("/:id")
+  public getIncident(req: express.Request) {
+    let params: any = req.params || {};
+    let id = params.id;
+    return this._incidentService.getIncident(id);
+  }
 }
