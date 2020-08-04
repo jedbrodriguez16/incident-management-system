@@ -1,7 +1,8 @@
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import RepositoryBase from "./RepositoryBase";
-import * as nano from "nano";
+import * as Nano from "nano";
 import * as _ from "underscore";
+import types from './types';
 
 export class ViewQuery {
   constructor(
@@ -17,14 +18,14 @@ export enum ViewSortingEnum {
   desc,
 }
 
-//todo: inject nano
-const n = nano("http://admin:admin@localhost:5984");
-const db = n.db.use("incidents");
-
 @injectable()
 export abstract class CouchDbRepositoryBase extends RepositoryBase {
+
+  @inject(types.nanoCouchDb)
+  private readonly _db: Nano.DocumentScope<{}>;
+
   protected findAll(query: ViewQuery): Promise<any[]> {
-    return db
+    return this._db
       .view(query.docName, query.indexName, this._buildParams(query))
       .then((res) => {
         return res.rows.map((row) => {
@@ -44,7 +45,7 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
   }
 
   protected findOne(id: string): Promise<any> {
-    return db
+    return this._db
       .get(id)
       .then((row: any) => {
         row.id = row._id;
@@ -70,7 +71,7 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
         delete model.id;
         delete model.rev;
     }
-    return db.insert(model, id)
+    return this._db.insert(model, id)
         .then(res => {
             model.id = res.id;
             model.rev = res.rev;
@@ -82,7 +83,7 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
       }
 
       protected remove(id: string, rev: string): Promise<any> {
-        return db.destroy(id, rev)
+        return this._db.destroy(id, rev)
             .then((res) => {
                 return {
                     id: res.id,

@@ -6,6 +6,7 @@ import * as bodyParser from "body-parser";
 import iocContainer from "./iocContainer";
 import configureServices from "./services/ioc";
 import configureRepositories from "./repositories/ioc";
+import configureCommonRepositories from "../../common/repositories/ioc";
 
 // load controllers
 import "./controllers/IncidentController";
@@ -13,6 +14,7 @@ import "./controllers/IncidentController";
 //configure iocContainer
 configureServices(iocContainer);
 configureRepositories(iocContainer);
+configureCommonRepositories(iocContainer);
 
 const app: express.Application = express();
 // @ts-ignore
