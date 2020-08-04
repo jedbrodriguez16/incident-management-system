@@ -4,6 +4,7 @@ import IncidentModel from "../models/IncidentModel";
 import {
   CouchDbRepositoryBase,
   ViewQuery,
+  ViewSortingEnum
 } from "../../../../common/repositories/CouchDbRepositoryBase";
 
 @injectable()
@@ -14,7 +15,7 @@ export default class IncidentRepository extends CouchDbRepositoryBase
   }
 
   public async findAll(): Promise<IncidentModel[]> {
-    let query = new ViewQuery("doc", "by-id");
+    let query = new ViewQuery("incident", "by-date", null, ViewSortingEnum.desc);
     return super.findAll(query);
   }
 }

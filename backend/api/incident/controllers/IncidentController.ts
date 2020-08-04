@@ -18,7 +18,7 @@ export class IncidentController {
 
   @httpGet("/")
   public getIncidents(req: express.Request) {
-    console.log("request ", req.app);
+    console.log("request ", req.baseUrl);
     return this._incidentService.getIncidentList();
   }
 }

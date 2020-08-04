@@ -8,8 +8,14 @@ export class ViewQuery {
   constructor(
     public designName: string,
     public viewName: string,
-    public key?: string | string[]
+    public key?: string | string[],
+    public sort: ViewSortingEnum = ViewSortingEnum.asc,
   ) {}
+}
+
+export enum ViewSortingEnum {
+  asc,
+  desc
 }
 
 //todo: inject nano
@@ -40,7 +46,7 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
       });
   }
 
-  private _buildParams(query): any {
+  private _buildParams(query: ViewQuery): any {
     let params: any = {};
     if (_.isArray(query.key)) {
       params.keys = query.key;
@@ -49,6 +55,7 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
     }
 
     params.include_docs = true;
+    params.descending = query.sort === ViewSortingEnum.asc ? false : true;
 
     return params;
   }
