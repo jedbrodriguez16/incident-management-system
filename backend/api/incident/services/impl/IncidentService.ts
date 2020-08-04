@@ -3,17 +3,31 @@ import IIncidentService from "../IIncidentService";
 import IIncidentRepository from "../../repositories/IIncidentRepository";
 import IncidentDto from "../dto/IncidentDto";
 import types from "../../repositories/types";
+import ServiceBase from "../../../../common/services/ServiceBase";
+import { plainToClass } from 'class-transformer';
+import IncidentModel from "../../repositories/models/IncidentModel";
 
 @injectable()
-export default class IncidentService implements IIncidentService {
+export default class IncidentService extends ServiceBase implements IIncidentService {
   @inject(types.IIncidentRepository)
   private readonly _incidentRepository: IIncidentRepository;
 
-  public getIncidentList(): Promise<IncidentDto[]> {
-    return this._incidentRepository.getList();
+  getDtoClass() {
+    return IncidentDto;
   }
 
-  public getIncident(id: string): Promise<IncidentDto> {
-    return this._incidentRepository.getById(id);
+  public async getIncidentList(): Promise<IncidentDto[]> {
+    let incidentList = await this._incidentRepository.getList();
+    return this.toDto(incidentList);
+  }
+
+  public async getIncident(id: string): Promise<IncidentDto> {
+    let incident = await this._incidentRepository.getById(id);
+    return this.toDto(incident);
+  }
+
+  public async upsertIndicent(dto: IncidentDto): Promise<IncidentDto> {
+    let incident = await this._incidentRepository.add(plainToClass(IncidentModel, dto))
+    return this.toDto(incident);
   }
 }

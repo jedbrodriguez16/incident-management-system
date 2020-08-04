@@ -24,7 +24,7 @@ export default class IncidentRepository extends CouchDbRepositoryBase
     return IncidentModel;
   }
 
-  public async getList(): Promise<IncidentModel[]> {
+  public getList(): Promise<IncidentModel[]> {
     let query = new ViewQuery(
       ViewDocNameEnum.Incident,
       ViewIndexNameEnum.Date,
@@ -33,7 +33,11 @@ export default class IncidentRepository extends CouchDbRepositoryBase
     return super.findAll(query);
   }
 
-  public async getById(id: string): Promise<IncidentModel> {
+  public getById(id: string): Promise<IncidentModel> {
     return super.findOne(id);
+  }
+
+  public add(model: IncidentModel): Promise<IncidentModel> {
+    return super.save(model);
   }
 }

@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import RepositoryBase from "./RepositoryBase";
 import * as nano from "nano";
-import { plainToClass } from "class-transformer";
 import * as _ from "underscore";
 
 export class ViewQuery {
@@ -24,7 +23,7 @@ const db = n.db.use("incidents");
 
 @injectable()
 export abstract class CouchDbRepositoryBase extends RepositoryBase {
-  protected async findAll(query: ViewQuery): Promise<any[]> {
+  protected findAll(query: ViewQuery): Promise<any[]> {
     return db
       .view(query.docName, query.indexName, this._buildParams(query))
       .then((res) => {
@@ -33,12 +32,10 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
           delete doc._id;
           delete doc._rev;
 
-          let model = plainToClass(this.getModelClass(), {
+          return this.toModel({
             id: row.id,
             ...doc,
           });
-
-          return model;
         });
       })
       .catch((err) => {
@@ -46,26 +43,43 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
       });
   }
 
-  protected async findOne(id: string): Promise<any> {
+  protected findOne(id: string): Promise<any> {
     return db
       .get(id)
       .then((row: any) => {
         row.id = row._id;
-        // row.rev = row._rev;
+        row.rev = row._rev;
         delete row._id;
         delete row._rev;
 
-        let model = plainToClass(this.getModelClass(), {
+        return this.toModel({
           id: row._id,
           ...row,
         });
-
-        return model;
       })
       .catch((err) => {
         return Promise.reject(err);
       });
   }
+
+  protected save(model: any): Promise<any> {
+    const id = model.id;
+    if (id) {
+        model._id = id;
+        model._rev = model.rev;
+        delete model.id;
+        delete model.rev;
+    }
+    return db.insert(model, id)
+        .then(res => {
+            model.id = res.id;
+            model.rev = res.rev;
+            return model;
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+      }
 
   private _buildParams(query: ViewQuery): any {
     let params: any = {};
