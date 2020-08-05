@@ -17,7 +17,7 @@ import {
   AcknowledgeIncidentRequest,
   ResolveIncidentRequest,
 } from "./IncidentRequest";
-import { IncidentStatusEnum } from "../common/IncidentStatusEnum";
+import { IncidentStatusEnum } from "./IncidentStatusEnum";
 import * as moment from "moment";
 
 @controller("/incidents")
