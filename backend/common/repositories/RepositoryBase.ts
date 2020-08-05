@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { plainToClass } from 'class-transformer';
+import { plainToClass } from "class-transformer";
 
 @injectable()
 export default abstract class RepositoryBase {
@@ -7,5 +7,5 @@ export default abstract class RepositoryBase {
 
   protected toModel(source: any) {
     return plainToClass(this.getModelClass(), source);
-}
+  }
 }

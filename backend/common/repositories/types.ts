@@ -1,4 +1,4 @@
 const types = {
-  nanoCouchDb: Symbol.for("nanoCouchDb")
+  nanoCouchDb: Symbol.for("nanoCouchDb"),
 };
 export default types;

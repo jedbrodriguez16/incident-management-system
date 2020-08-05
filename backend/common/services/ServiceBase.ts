@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { plainToClass } from 'class-transformer';
-import * as _ from 'underscore';
+import { plainToClass } from "class-transformer";
+import * as _ from "underscore";
 
 @injectable()
 export default abstract class ServiceBase {
@@ -8,11 +8,11 @@ export default abstract class ServiceBase {
 
   protected toDto(model: any): any {
     if (_.isArray(model)) {
-        return model.map(model => {
-            return plainToClass(this.getDtoClass(), model);
-        });
-    } else {
+      return model.map((model) => {
         return plainToClass(this.getDtoClass(), model);
+      });
+    } else {
+      return plainToClass(this.getDtoClass(), model);
     }
-}
+  }
 }

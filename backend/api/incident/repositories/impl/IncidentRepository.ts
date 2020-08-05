@@ -8,13 +8,13 @@ import {
 } from "../../../../common/repositories/CouchDbRepositoryBase";
 
 enum ViewDocNameEnum {
-  Incident = "incident"
+  Incident = "incident",
 }
 
 enum ViewIndexNameEnum {
   Assignee = "by-assignee",
   Date = "by-date",
-  Status = "by-status"
+  Status = "by-status",
 }
 
 @injectable()

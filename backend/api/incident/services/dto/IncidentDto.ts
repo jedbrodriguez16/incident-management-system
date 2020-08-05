@@ -5,8 +5,9 @@ export default class IncidentDto {
   description: string;
   status: string;
   assignedTo: string;
-  createdDate: Date;
+  createdDate: string;
   createdBy: string;
-  updatedDate: Date;
+  updatedDate: string;
   updatedBy: string;
+  resolutionComment: string;
 }
