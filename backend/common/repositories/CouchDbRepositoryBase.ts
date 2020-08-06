@@ -8,14 +8,14 @@ export class ViewQuery {
   constructor(
     public docName?: string,
     public indexName?: string,
-    public sort: ViewSortingEnum = ViewSortingEnum.asc,
+    public sort: ViewSortingEnum = ViewSortingEnum.Ascending,
     public key?: string | string[]
   ) {}
 }
 
 export enum ViewSortingEnum {
-  asc,
-  desc,
+  Ascending,
+  Descending,
 }
 
 @injectable()
@@ -107,7 +107,7 @@ export abstract class CouchDbRepositoryBase extends RepositoryBase {
     }
 
     params.include_docs = true;
-    params.descending = query.sort === ViewSortingEnum.asc ? false : true;
+    params.descending = query.sort === ViewSortingEnum.Ascending ? false : true;
 
     return params;
   }

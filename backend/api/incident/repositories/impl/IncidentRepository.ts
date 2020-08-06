@@ -28,7 +28,7 @@ export default class IncidentRepository extends CouchDbRepositoryBase
     let query = new ViewQuery(
       ViewDocNameEnum.Incident,
       ViewIndexNameEnum.Date,
-      ViewSortingEnum.desc
+      ViewSortingEnum.Descending
     );
     return super.findAll(query);
   }
