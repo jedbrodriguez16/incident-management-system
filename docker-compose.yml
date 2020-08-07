@@ -8,12 +8,12 @@ services:
     # tty: true      # docker run -t
     depends_on:
       - incident
-      - identity
+      # - identity
   incident:
     build: backend/api/incident
     ports:
       - '8080:8080'
-  identity:
-    build: backend/api/identity
-    ports:
-      - '8081:8081'
+  # identity:
+  #   build: backend/api/identity
+  #   ports:
+  #     - '8081:8081'
