@@ -1,5 +1,5 @@
 export default class UserInfoDto {
-  userId: string;
+  username: string;
   displayName: string;
   groups: string[];
 }

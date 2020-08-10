@@ -5,7 +5,7 @@ import commonServiceTypes from "../services/types";
 import IErrorHandlerService from "../services/IErrorHandlerService";
 
 //factory for the interceptor that will work like meta data
-export function userInfo(iocContainer: Container) {
+export default function userInfo(iocContainer: Container) {
   return async function (req, res, next) {
     try {
       let userInfoInterceptor = iocContainer.get<IUserInfoInterceptor>(

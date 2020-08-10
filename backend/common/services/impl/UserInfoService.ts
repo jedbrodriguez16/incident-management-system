@@ -5,6 +5,7 @@ import commonServiceTypes from "../types";
 import IConfigService from "../IConfigService";
 import IClientProxyService from "../IClientProxyService";
 import BaseService from "./BaseService";
+import HttpMethodEnum from "../../enum/HttpMethodEnum";
 
 @injectable()
 export default class UserInfoService extends BaseService
@@ -19,17 +20,19 @@ export default class UserInfoService extends BaseService
     return UserInfoDto;
   }
 
-  async getByToken(token: string): Promise<UserInfoDto> {
+  async getByToken(token: string): Promise<any> {
     let decryptionEndpoint = this._configService.getDecryptEndpoint();
     let response = await this._clientProxyService.invoke({
+      method: HttpMethodEnum.get,
       token: token,
       url: decryptionEndpoint,
       payload: {},
     });
+    let decryptedValue = JSON.parse(response.payload);
     return {
-      userId: response.payload.userId,
-      displayName: response.payload.displayName,
-      groups: response.payload.groups,
+      username: decryptedValue.username,
+      displayName: decryptedValue.displayName,
+      groups: decryptedValue.groups,
     };
   }
 }
