@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "module": "commonjs",
@@ -15,7 +12,5 @@
     "target": "es2017",
     "outDir": "lib"
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

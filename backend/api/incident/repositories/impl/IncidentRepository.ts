@@ -5,7 +5,7 @@ import {
   CouchDbRepositoryBase,
   ViewQuery,
   ViewSortingEnum,
-} from "../../../../common/repositories/CouchDbRepositoryBase";
+} from "../../../../common/repositories/impl/CouchDbRepositoryBase";
 
 enum ViewDocNameEnum {
   Incident = "incident",
@@ -34,7 +34,7 @@ export default class IncidentRepository extends CouchDbRepositoryBase
   }
 
   public getById(id: string): Promise<IncidentModel> {
-    return super.findOne(id);
+    return super.findById(id);
   }
 
   public add(model: IncidentModel): Promise<IncidentModel> {

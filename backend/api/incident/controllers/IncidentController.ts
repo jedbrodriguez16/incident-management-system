@@ -20,7 +20,7 @@ import {
 import { IncidentStatusEnum } from "./IncidentStatusEnum";
 import * as moment from "moment";
 
-@controller("/incidents")
+@controller("/api/incidents")
 export class IncidentController {
   @inject(types.IIncidentService)
   private readonly _incidentService: IIncidentService;
