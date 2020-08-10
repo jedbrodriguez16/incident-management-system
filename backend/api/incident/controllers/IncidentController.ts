@@ -57,7 +57,7 @@ export class IncidentController {
 
     let username = request.userInfo.username;
     incident.status = IncidentStatusEnum.New;
-    incident.assignedTo = username;
+    incident.assignedTo = null;
     incident.createdBy = username;
     incident.createdDate = now;
     incident.updatedBy = username;

@@ -5,6 +5,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  GET_SYSTEM_USERS,
 } from "../types";
 
 export default (state, action) => {
@@ -35,11 +36,17 @@ export default (state, action) => {
         loading: false,
         user: null,
         error: action.payload,
+        systemUsers: [],
       };
     case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
+      };
+    case GET_SYSTEM_USERS:
+      return {
+        ...state,
+        systemUsers: action.payload,
       };
     default:
       return state;

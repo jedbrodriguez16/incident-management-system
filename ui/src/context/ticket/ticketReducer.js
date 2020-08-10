@@ -9,7 +9,6 @@ import {
   CLEAR_FILTER,
   TICKET_ERROR,
   CLEAR_TICKETS,
-  GET_SYSTEM_USERS,
 } from "../types";
 
 export default (state, action) => {
@@ -75,11 +74,6 @@ export default (state, action) => {
       return {
         ...state,
         error: action.payload,
-      };
-    case GET_SYSTEM_USERS:
-      return {
-        ...state,
-        systemUsers: action.payload,
       };
     default:
       return state;

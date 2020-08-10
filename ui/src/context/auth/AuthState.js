@@ -10,6 +10,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  GET_SYSTEM_USERS,
 } from "../types";
 
 const AuthState = (props) => {
@@ -19,9 +20,29 @@ const AuthState = (props) => {
     loading: true,
     user: null,
     error: null,
+    systemUsers: [],
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  // Get System Users
+  const getSystemUsers = async () => {
+    try {
+      //todo: get users host from config
+      const res = await axios.get("http://localhost:8081/api/users");
+
+      const usernames = res.data.map((user) => {
+        return user.id;
+      });
+
+      dispatch({
+        type: GET_SYSTEM_USERS,
+        payload: usernames,
+      });
+    } catch (err) {
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
 
   // Load User
   const loadUser = async () => {
@@ -31,9 +52,21 @@ const AuthState = (props) => {
       //todo: get auth host from config
       const res = await axios.get("http://localhost:8081/api/auth/decrypt");
 
+      const user = res.data;
+
+      if (
+        user &&
+        user.groups &&
+        user.groups.length > 0 &&
+        user.groups.includes("admin")
+      ) {
+        console.log("call get system users");
+        getSystemUsers();
+      }
+
       dispatch({
         type: USER_LOADED,
-        payload: res.data,
+        payload: user,
       });
     } catch (err) {
       dispatch({ type: AUTH_ERROR });
@@ -48,6 +81,7 @@ const AuthState = (props) => {
       },
     };
 
+    //todo: get clientId and secret from config
     const credentials = {
       clientId: "client-id",
       clientSecret: "secret",
@@ -91,10 +125,12 @@ const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        systemUsers: state.systemUsers,
         loadUser,
         login,
         logout,
         clearErrors,
+        getSystemUsers,
       }}
     >
       {props.children}

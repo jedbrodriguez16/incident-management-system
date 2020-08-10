@@ -1,26 +1,29 @@
 import React, { useState, useContext, useEffect } from "react";
 import TicketContext from "../../context/ticket/ticketContext";
+import AuthContext from "../../context/auth/authContext";
 
 const TicketDetail = () => {
   const ticketContext = useContext(TicketContext);
+  const authContext = useContext(AuthContext);
 
-  const {
-    addTicket,
-    updateTicket,
-    clearCurrent,
-    current,
-    // getSystemUsers,
-    // systemUsers,
-  } = ticketContext;
+  const { systemUsers } = authContext;
+
+  const { addTicket, updateTicket, clearCurrent, current } = ticketContext;
 
   useEffect(() => {
-    // getSystemUsers();
-
     if (current !== null) {
-      // if (current.status === "New") {
-      //   current.assignedTo = systemUsers[0];
-      // }
-      setTicket(current);
+      if (
+        current.status === "New" &&
+        current.assignedTo === null &&
+        (systemUsers !== null) & (systemUsers.length > 0)
+      ) {
+        setTicket({
+          ...current,
+          assignedTo: systemUsers[0],
+        });
+      } else {
+        setTicket(current);
+      }
     } else {
       setTicket({
         title: "",
@@ -78,7 +81,7 @@ const TicketDetail = () => {
           <h4>Status</h4>
           <span>{status}</span>
           <h4>Assigned To</h4>
-          {/* <span>{assignedTo || "Unassigned"}</span> */}
+          <span>{assignedTo || "Unassigned"}</span>
           {/* <h4>Assignee: </h4>
           <select value={assignedTo} onChange={onSystemUserChange}>
             {systemUsers && systemUsers.length > 0 ? (

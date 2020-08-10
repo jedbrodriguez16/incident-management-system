@@ -13,7 +13,6 @@ import {
   CLEAR_TICKETS,
   CLEAR_FILTER,
   TICKET_ERROR,
-  GET_SYSTEM_USERS,
 } from "../types";
 
 const TicketState = (props) => {
@@ -22,7 +21,6 @@ const TicketState = (props) => {
     current: null,
     filtered: null,
     error: null,
-    systemUsers: [],
   };
 
   const [state, dispatch] = useReducer(ticketReducer, initialState);
@@ -144,25 +142,6 @@ const TicketState = (props) => {
     dispatch({ type: CLEAR_FILTER });
   };
 
-  // Get System Users
-  const getSystemUsers = async () => {
-    try {
-      //todo: get users host from config
-      const res = await axios.get("http://localhost:8081/api/users");
-
-      const usernames = res.data.map((user) => {
-        return user.id;
-      });
-
-      dispatch({
-        type: GET_SYSTEM_USERS,
-        payload: usernames,
-      });
-    } catch (err) {
-      dispatch({ type: TICKET_ERROR });
-    }
-  };
-
   return (
     <TicketContext.Provider
       value={{
@@ -170,7 +149,7 @@ const TicketState = (props) => {
         current: state.current,
         filtered: state.filtered,
         error: state.error,
-        systemUsers: state.systemUsers,
+
         addTicket,
         deleteTicket,
         setCurrent,
@@ -180,7 +159,6 @@ const TicketState = (props) => {
         clearFilter,
         getTickets,
         clearTickets,
-        getSystemUsers,
       }}
     >
       {props.children}
