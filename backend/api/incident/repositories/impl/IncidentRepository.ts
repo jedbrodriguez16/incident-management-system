@@ -38,6 +38,7 @@ export default class IncidentRepository extends CouchDbRepositoryBase
   }
 
   public add(model: IncidentModel): Promise<IncidentModel> {
+    model.docName = ViewDocNameEnum.Incident;
     return super.save(model);
   }
 

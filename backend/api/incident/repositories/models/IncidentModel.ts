@@ -14,4 +14,5 @@ export default class IncidentModel {
   updatedDate: string;
   updatedBy: string;
   resolutionComment: string;
+  docName: string;
 }

@@ -19,20 +19,27 @@ import {
 } from "./IncidentRequest";
 import { IncidentStatusEnum } from "./IncidentStatusEnum";
 import * as moment from "moment";
+import { authorisation } from "../../../common/interceptors/authorisationFactory";
+import iocContainer from "../iocContainer";
+
+// import commonTypes from "../../../common/services/types";
+// import IHttpService from "../../../common/services/IHttpService";
+// import IJwtService from "../../identity/services/IJwtService";
+// import identityServicesTypes from "../../identity/services/types";
 
 @controller("/api/incidents")
 export class IncidentController {
   @inject(types.IIncidentService)
   private readonly _incidentService: IIncidentService;
 
-  @httpGet("/ping")
-  public ping() {
-    return "pong!";
-  }
+  // @inject(identityServicesTypes.IJwtService)
+  // private readonly _jwtService: IJwtService;
+
+  // @inject(commonTypes.IHttpService)
+  // private readonly _httpService: IHttpService;
 
   @httpGet("/")
-  public getIncidents(req: express.Request) {
-    console.log("request ", req.baseUrl);
+  public getIncidents() {
     return this._incidentService.getIncidentList();
   }
 
@@ -43,7 +50,7 @@ export class IncidentController {
     return this._incidentService.getIncident(id);
   }
 
-  @httpPost("/")
+  @httpPost("/", authorisation(iocContainer, "incident", "create"))
   public createIncident(req: express.Request) {
     let input: CreateIncidentRequest = req.body;
 
@@ -51,6 +58,9 @@ export class IncidentController {
     incident.title = input.title;
     incident.description = input.description;
 
+    // const bearerToken = this._httpService.getBearerToken(req);
+    // let decryptedValue = this._jwtService.decrypt(bearerToken);
+    // console.log("------- decrypted value ----- ", decryptedValue);
     let username = "Jed"; //todo: get from token, check admin role
     let now = moment(new Date()).toISOString();
 

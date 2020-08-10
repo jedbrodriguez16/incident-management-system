@@ -1,14 +1,16 @@
 {
-  "name": "incident-management-system-ui",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-nbsp": "^1.2.4",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-transition-group": "^4.3.0",
+    "uuid": "^7.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,8 +33,5 @@
       "last 1 safari version"
     ]
   },
-  "repository": {
-    "type" : "git",
-    "url" : "https://github.com/jedbrodriguez16/incident-management-system.git"
-  }
+  "proxy": "http://localhost:8080"
 }

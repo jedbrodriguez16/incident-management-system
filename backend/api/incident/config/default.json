@@ -15,7 +15,7 @@
     }
   },
   "services": {
-    "authorisationEndpoint": "http://localhost:8081/auth/authorized",
-    "decryptionEndpoint": "http://localhost:8081/auth/decrypt"
+    "authorisationEndpoint": "http://localhost:8081/api/auth/authorized",
+    "decryptionEndpoint": "http://localhost:8081/api/auth/decrypt"
   }
 }
