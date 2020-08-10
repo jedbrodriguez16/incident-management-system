@@ -28,7 +28,7 @@ export class IncidentController {
   @inject(types.IIncidentService)
   private readonly _incidentService: IIncidentService;
 
-  @httpGet("/")
+  @httpGet("/", authorisation(iocContainer, "incident", "get-list"))
   public getIncidents() {
     return this._incidentService.getIncidentList();
   }

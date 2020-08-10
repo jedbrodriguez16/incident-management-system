@@ -147,15 +147,16 @@ const TicketState = (props) => {
   // Get System Users
   const getSystemUsers = async () => {
     try {
-      // const res = await axios.get("/api/users");
-      //todo: get system users via API
-      const res = {
-        data: ["derek", "jed"],
-      };
+      //todo: get users host from config
+      const res = await axios.get("http://localhost:8081/api/users");
+
+      const usernames = res.data.map((user) => {
+        return user.id;
+      });
 
       dispatch({
         type: GET_SYSTEM_USERS,
-        payload: res.data,
+        payload: usernames,
       });
     } catch (err) {
       dispatch({ type: TICKET_ERROR });

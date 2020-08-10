@@ -3,9 +3,11 @@ import UserIdentityDto from "../dto/UserIdentityDto";
 import IUserIdentityRepository from "../../repositories/IUserIdentityRepository";
 import ServiceBase from "../../../../common/services/ServiceBase";
 import repoTypes from "../../repositories/types";
+import IUserIdentityService from "../IUserIdentityService";
 
 @injectable()
-export default class UserIdentityService extends ServiceBase {
+export default class UserIdentityService extends ServiceBase
+  implements IUserIdentityService {
   @inject(repoTypes.IUserIdentityRepository)
   private readonly _userRepository: IUserIdentityRepository;
 

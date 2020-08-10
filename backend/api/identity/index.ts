@@ -21,6 +21,7 @@ configureRepositories(iocContainer);
 
 // load controllers
 import "./controllers/AuthenticationController";
+import "./controllers/UserIdentityController";
 
 const app: express.Application = express();
 // @ts-ignore
