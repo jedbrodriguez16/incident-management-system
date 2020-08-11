@@ -4,14 +4,13 @@ import IncidentModel from "../models/IncidentModel";
 import {
   CouchDbRepositoryBase,
   ViewQuery,
-  ViewSortingEnum,
-} from "../../../../common/repositories/CouchDbRepositoryBase";
+} from "../../../../common/repositories/impl/CouchDbRepositoryBase";
 
-enum ViewDocNameEnum {
+export enum ViewDocNameEnum {
   Incident = "incident",
 }
 
-enum ViewIndexNameEnum {
+export enum ViewIndexNameEnum {
   Assignee = "by-assignee",
   Date = "by-date",
   Status = "by-status",
@@ -24,20 +23,16 @@ export default class IncidentRepository extends CouchDbRepositoryBase
     return IncidentModel;
   }
 
-  public getList(): Promise<IncidentModel[]> {
-    let query = new ViewQuery(
-      ViewDocNameEnum.Incident,
-      ViewIndexNameEnum.Date,
-      ViewSortingEnum.desc
-    );
+  public getList(query: ViewQuery): Promise<IncidentModel[]> {
     return super.findAll(query);
   }
 
   public getById(id: string): Promise<IncidentModel> {
-    return super.findOne(id);
+    return super.findById(id);
   }
 
   public add(model: IncidentModel): Promise<IncidentModel> {
+    model.docName = ViewDocNameEnum.Incident;
     return super.save(model);
   }
 

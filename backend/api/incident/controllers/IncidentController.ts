@@ -19,41 +19,51 @@ import {
 } from "./IncidentRequest";
 import { IncidentStatusEnum } from "./IncidentStatusEnum";
 import * as moment from "moment";
+import { authorisation } from "../../../common/interceptors/authorisationFactory";
+import iocContainer from "../iocContainer";
+import userInfo from "../../../common/interceptors/userInfoInterceptorFactory";
 
-@controller("/incidents")
-export class IncidentController {
+@controller("/api/incidents")
+export default class IncidentController {
   @inject(types.IIncidentService)
   private readonly _incidentService: IIncidentService;
 
-  @httpGet("/ping")
-  public ping() {
-    return "pong!";
-  }
-
-  @httpGet("/")
+  @httpGet(
+    "/",
+    authorisation(iocContainer, "incident", "get-list"),
+    userInfo(iocContainer)
+  )
   public getIncidents(req: express.Request) {
-    console.log("request ", req.baseUrl);
-    return this._incidentService.getIncidentList();
+    let request: any = req;
+    let query: any = request.query || {};
+    let sortBy = query.sortBy;
+
+    return this._incidentService.getIncidentList(request.userInfo, sortBy);
   }
 
-  @httpGet("/:id")
+  @httpGet("/:id", authorisation(iocContainer, "incident", "get-one"))
   public getIncident(req: express.Request) {
     let params: any = req.params || {};
     let id = params.id;
     return this._incidentService.getIncident(id);
   }
 
-  @httpPost("/")
+  @httpPost(
+    "/",
+    authorisation(iocContainer, "incident", "create"),
+    userInfo(iocContainer)
+  )
   public createIncident(req: express.Request) {
-    let input: CreateIncidentRequest = req.body;
+    let request: any = req;
+    let input: CreateIncidentRequest = request.body;
 
     let incident = new IncidentDto();
     incident.title = input.title;
     incident.description = input.description;
 
-    let username = "Jed"; //todo: get from token, check admin role
     let now = moment(new Date()).toISOString();
 
+    let username = request.userInfo.username;
     incident.status = IncidentStatusEnum.New;
     incident.assignedTo = null;
     incident.createdBy = username;
@@ -64,14 +74,19 @@ export class IncidentController {
     return this._incidentService.upsertIndicent(incident);
   }
 
-  @httpPost("/assign")
+  @httpPost(
+    "/assign",
+    authorisation(iocContainer, "incident", "assign"),
+    userInfo(iocContainer)
+  )
   public async assignIncident(req: express.Request) {
-    let input: AssignIncidentRequest = req.body;
+    let request: any = req;
+    let input: AssignIncidentRequest = request.body;
 
     let incident = await this._incidentService.getIncident(input.incidentId);
     incident.assignedTo = input.username;
 
-    let username = "Jed"; //todo: get from token, check admin role
+    let username = request.userInfo.username;
 
     incident.status = IncidentStatusEnum.Assigned;
     incident.updatedBy = username;
@@ -80,13 +95,18 @@ export class IncidentController {
     return this._incidentService.upsertIndicent(incident);
   }
 
-  @httpPost("/acknowledge")
+  @httpPost(
+    "/acknowledge",
+    authorisation(iocContainer, "incident", "acknowledge"),
+    userInfo(iocContainer)
+  )
   public async acknowledgeIncident(req: express.Request) {
-    let input: AcknowledgeIncidentRequest = req.body;
+    let request: any = req;
+    let input: AcknowledgeIncidentRequest = request.body;
 
     let incident = await this._incidentService.getIncident(input.incidentId);
 
-    let username = "User1"; //todo: get from token, check user role
+    let username = request.userInfo.username;
 
     incident.status = IncidentStatusEnum.Acknowledged;
     incident.updatedBy = username;
@@ -95,13 +115,18 @@ export class IncidentController {
     return this._incidentService.upsertIndicent(incident);
   }
 
-  @httpPost("/resolve")
+  @httpPost(
+    "/resolve",
+    authorisation(iocContainer, "incident", "resolve"),
+    userInfo(iocContainer)
+  )
   public async resolveIncident(req: express.Request) {
-    let input: ResolveIncidentRequest = req.body;
+    let request: any = req;
+    let input: ResolveIncidentRequest = request.body;
 
     let incident = await this._incidentService.getIncident(input.incidentId);
 
-    let username = "User1"; //todo: get from token, check user role
+    let username = request.userInfo.username;
 
     incident.status = IncidentStatusEnum.Resolved;
     incident.updatedBy = username;
@@ -111,7 +136,11 @@ export class IncidentController {
     return this._incidentService.upsertIndicent(incident);
   }
 
-  @httpDelete("/:id")
+  @httpDelete(
+    "/:id",
+    authorisation(iocContainer, "incident", "delete"),
+    userInfo(iocContainer)
+  )
   public deleteIncident(req: express.Request) {
     let params: any = req.params || {};
     let id = params.id;
