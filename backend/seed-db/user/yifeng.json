@@ -1,0 +1,7 @@
+{
+  "_id": "yifeng",
+  "password": "password",
+  "displayName": "Yi Feng",
+  "isEnabled": true,
+  "groups": ["user"]
+}

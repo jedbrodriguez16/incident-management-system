@@ -1,0 +1,15 @@
+{
+  "_id": "_design/incident",
+  "views": {
+    "by-date": {
+      "map": "function (doc) {\n  if (doc.docName === \"incident\") {\n    emit(doc.updatedDate, doc);\n  }\n}"
+    },
+    "by-assignee": {
+      "map": "function (doc) {\n  if (doc.docName === \"incident\") {\n    emit(doc.assignedTo, doc);\n  }\n}"
+    },
+    "by-status": {
+      "map": "function (doc) {\n  if (doc.docName === \"incident\") {\n    emit(doc.status, doc);\n  }\n}"
+    }
+  },
+  "language": "javascript"
+}

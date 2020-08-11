@@ -128,6 +128,7 @@ const TicketDetail = () => {
               name='resolutionComment'
               value={resolutionComment}
               onChange={onChange}
+              required
             />
           )}
         </div>
@@ -141,6 +142,7 @@ const TicketDetail = () => {
               name='title'
               value={title}
               onChange={onChange}
+              required
             />
             <input
               type='text'
@@ -148,6 +150,7 @@ const TicketDetail = () => {
               name='description'
               value={description}
               onChange={onChange}
+              required
             />
           </div>
         )
