@@ -1,0 +1,29 @@
+{
+  "extension": [".ts"],
+  "exclude": [
+    "**/*.d.ts",
+    "coverage/**",
+
+    "common/annotation",
+    "**/*/enum/*",
+    "**/*/ioc.ts",
+    "**/*/types.ts",
+    "**/*/dto/*",
+    "**/*/model/*",
+    "**/*/index.ts",
+    "**/*/iocContainer.ts",
+
+    "packages/*/test/**",
+    "test/**",
+    "test{,-*}.ts",
+    "**/*{.,-}{test,spec}.ts",
+    "**/__tests__/**",
+    "**/node_modules/**"
+  ],
+  "all": true,
+  "check-coverage": true,
+  "branches": 60,
+  "lines": 60,
+  "functions": 60,
+  "statements": 60
+}

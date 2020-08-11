@@ -24,7 +24,7 @@ import iocContainer from "../iocContainer";
 import userInfo from "../../../common/interceptors/userInfoInterceptorFactory";
 
 @controller("/api/incidents")
-export class IncidentController {
+export default class IncidentController {
   @inject(types.IIncidentService)
   private readonly _incidentService: IIncidentService;
 

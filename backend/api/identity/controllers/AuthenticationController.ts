@@ -12,7 +12,7 @@ import IAuthorisationService from "../services/IAuthorisationService";
 
 const controllerName: string = "authentication";
 @controller("/api/auth")
-export class AuthenticationController extends BaseController {
+export default class AuthenticationController extends BaseController {
   @inject(types.IJwtService)
   private readonly _jwtService: IJwtService;
 

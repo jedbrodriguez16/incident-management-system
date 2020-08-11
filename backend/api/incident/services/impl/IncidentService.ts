@@ -34,7 +34,6 @@ export default class IncidentService extends ServiceBase
     let viewKey: string | string[] = undefined;
     let sortOrder: ViewSortingEnum = ViewSortingEnum.Descending;
 
-    console.log("sortBy", sortBy);
     if (user) {
       if (
         user.groups &&
@@ -64,8 +63,6 @@ export default class IncidentService extends ServiceBase
       sortOrder,
       viewKey
     );
-
-    console.log("viewquery", query);
 
     let incidentList = await this._incidentRepository.getList(query);
     return this.toDto(incidentList);
