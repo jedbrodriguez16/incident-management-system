@@ -9,13 +9,13 @@ const Tickets = () => {
   const ticketContext = useContext(TicketContext);
   const authContext = useContext(AuthContext);
 
-  const { tickets, filtered, getTickets, loading } = ticketContext;
+  const { tickets, filtered, getTickets, loading, sortBy } = ticketContext;
   const { user } = authContext;
 
   useEffect(() => {
-    getTickets();
+    getTickets(sortBy);
     // eslint-disable-next-line
-  }, []);
+  }, [sortBy]);
 
   if (tickets !== null && tickets.length === 0 && !loading) {
     if (user && user.role === "admin") {

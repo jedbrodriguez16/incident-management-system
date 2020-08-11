@@ -35,8 +35,10 @@ export class IncidentController {
   )
   public getIncidents(req: express.Request) {
     let request: any = req;
+    let query: any = request.query || {};
+    let sortBy = query.sortBy;
 
-    return this._incidentService.getIncidentList(request.userInfo);
+    return this._incidentService.getIncidentList(request.userInfo, sortBy);
   }
 
   @httpGet("/:id", authorisation(iocContainer, "incident", "get-one"))

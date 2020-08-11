@@ -8,6 +8,7 @@ import {
   ACKNOWLEDGE_TICKET,
   RESOLVE_TICKET,
   FILTER_TICKETS,
+  SORT_TICKETS,
   CLEAR_FILTER,
   TICKET_ERROR,
   CLEAR_TICKETS,
@@ -69,6 +70,11 @@ export default (state, action) => {
           const regex = new RegExp(`${action.payload}`, "gi");
           return ticket.title.match(regex) || ticket.description.match(regex);
         }),
+      };
+    case SORT_TICKETS:
+      return {
+        ...state,
+        sortBy: action.payload,
       };
     case CLEAR_FILTER:
       return {

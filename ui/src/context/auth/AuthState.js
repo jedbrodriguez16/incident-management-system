@@ -13,6 +13,11 @@ import {
   GET_SYSTEM_USERS,
 } from "../types";
 
+//todo: get from config file
+const AUTH_API_HOST = "http://localhost:8081";
+const AUTH_CLIENT_ID = "client-id";
+const AUTH_CLIENT_SECRET = "secret";
+
 const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),
@@ -28,8 +33,7 @@ const AuthState = (props) => {
   // Get System Users
   const getSystemUsers = async () => {
     try {
-      //todo: get users host from config
-      const res = await axios.get("http://localhost:8081/api/users");
+      const res = await axios.get(`${AUTH_API_HOST}/api/users`);
 
       const usernames = res.data.map((user) => {
         return user.id;
@@ -49,8 +53,7 @@ const AuthState = (props) => {
     setAuthToken(localStorage.token);
 
     try {
-      //todo: get auth host from config
-      const res = await axios.get("http://localhost:8081/api/auth/decrypt");
+      const res = await axios.get(`${AUTH_API_HOST}/api/auth/decrypt`);
 
       const user = res.data;
 
@@ -83,18 +86,17 @@ const AuthState = (props) => {
       },
     };
 
-    //todo: get clientId and secret from config
     const credentials = {
-      clientId: "client-id",
-      clientSecret: "secret",
+      clientId: AUTH_CLIENT_ID,
+      clientSecret: AUTH_CLIENT_SECRET,
       username: formData.username,
       password: formData.password,
     };
 
     try {
-      //todo: get auth host from config
+      console.log(AUTH_API_HOST);
       const res = await axios.post(
-        "http://localhost:8081/api/auth/login",
+        `${AUTH_API_HOST}/api/auth/login`,
         credentials,
         config
       );

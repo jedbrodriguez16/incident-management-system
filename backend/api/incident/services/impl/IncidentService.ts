@@ -26,17 +26,30 @@ export default class IncidentService extends ServiceBase
     return IncidentDto;
   }
 
-  public async getIncidentList(user: UserInfoDto): Promise<IncidentDto[]> {
+  public async getIncidentList(
+    user: UserInfoDto,
+    sortBy: string
+  ): Promise<IncidentDto[]> {
     let viewIndexName = ViewIndexNameEnum.Date;
-    let viewKey: string | string[];
+    let viewKey: string | string[] = undefined;
+    let sortOrder: ViewSortingEnum = ViewSortingEnum.Descending;
 
+    console.log("sortBy", sortBy);
     if (user) {
       if (
         user.groups &&
         user.groups.length > 0 &&
         user.groups.includes("admin")
       ) {
-        viewIndexName = ViewIndexNameEnum.Date;
+        if (sortBy === "assignee") {
+          viewIndexName = ViewIndexNameEnum.Assignee;
+          sortOrder = ViewSortingEnum.Ascending;
+        } else if (sortBy === "status") {
+          viewIndexName = ViewIndexNameEnum.Status;
+          sortOrder = ViewSortingEnum.Ascending;
+        } else {
+          viewIndexName = ViewIndexNameEnum.Date;
+        }
       } else {
         viewIndexName = ViewIndexNameEnum.Assignee;
         viewKey = user.username;
@@ -48,9 +61,11 @@ export default class IncidentService extends ServiceBase
     let query = new ViewQuery(
       ViewDocNameEnum.Incident,
       viewIndexName,
-      ViewSortingEnum.Descending,
+      sortOrder,
       viewKey
     );
+
+    console.log("viewquery", query);
 
     let incidentList = await this._incidentRepository.getList(query);
     return this.toDto(incidentList);

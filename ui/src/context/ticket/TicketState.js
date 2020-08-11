@@ -12,10 +12,14 @@ import {
   ACKNOWLEDGE_TICKET,
   RESOLVE_TICKET,
   FILTER_TICKETS,
+  SORT_TICKETS,
   CLEAR_TICKETS,
   CLEAR_FILTER,
   TICKET_ERROR,
 } from "../types";
+
+//todo: get from config file
+const INCIDENT_API_HOST = "http://localhost:8080";
 
 const TicketState = (props) => {
   const initialState = {
@@ -28,10 +32,11 @@ const TicketState = (props) => {
   const [state, dispatch] = useReducer(ticketReducer, initialState);
 
   // Get Tickets
-  const getTickets = async () => {
+  const getTickets = async (sortBy) => {
     try {
-      //todo: get incident host from config
-      const res = await axios.get("http://localhost:8080/api/incidents");
+      const res = await axios.get(
+        `${INCIDENT_API_HOST}/api/incidents?sortBy=${sortBy}`
+      );
 
       dispatch({
         type: GET_TICKETS,
@@ -54,9 +59,8 @@ const TicketState = (props) => {
     };
 
     try {
-      //todo: get incident host from config
       const res = await axios.post(
-        "http://localhost:8080/api/incidents",
+        `${INCIDENT_API_HOST}/api/incidents`,
         ticket,
         config
       );
@@ -76,8 +80,7 @@ const TicketState = (props) => {
   // Delete Ticket
   const deleteTicket = async (id) => {
     try {
-      //todo: get incident host from config
-      await axios.delete(`http://localhost:8080/api/incidents/${id}`);
+      await axios.delete(`${INCIDENT_API_HOST}/api/incidents/${id}`);
 
       dispatch({
         type: DELETE_TICKET,
@@ -100,9 +103,8 @@ const TicketState = (props) => {
     };
 
     try {
-      //todo: get incident host from config
       const res = await axios.post(
-        `http://localhost:8080/api/incidents/assign`,
+        `${INCIDENT_API_HOST}/api/incidents/assign`,
         { incidentId: ticketId, username: assignee },
         config
       );
@@ -128,9 +130,8 @@ const TicketState = (props) => {
     };
 
     try {
-      //todo: get incident host from config
       const res = await axios.post(
-        `http://localhost:8080/api/incidents/acknowledge`,
+        `${INCIDENT_API_HOST}/api/incidents/acknowledge`,
         { incidentId: ticketId },
         config
       );
@@ -156,9 +157,8 @@ const TicketState = (props) => {
     };
 
     try {
-      //todo: get incident host from config
       const res = await axios.post(
-        `http://localhost:8080/api/incidents/resolve`,
+        `${INCIDENT_API_HOST}/api/incidents/resolve`,
         { incidentId: ticketId, resolutionComment: resolutionComment },
         config
       );
@@ -195,6 +195,11 @@ const TicketState = (props) => {
     dispatch({ type: FILTER_TICKETS, payload: text });
   };
 
+  // Sort Tickets
+  const sortTickets = (sortBy) => {
+    dispatch({ type: SORT_TICKETS, payload: sortBy });
+  };
+
   // Clear Filter
   const clearFilter = () => {
     dispatch({ type: CLEAR_FILTER });
@@ -207,6 +212,7 @@ const TicketState = (props) => {
         current: state.current,
         filtered: state.filtered,
         error: state.error,
+        sortBy: state.sortBy,
         addTicket,
         deleteTicket,
         setCurrent,
@@ -218,6 +224,7 @@ const TicketState = (props) => {
         clearFilter,
         getTickets,
         clearTickets,
+        sortTickets,
       }}
     >
       {props.children}

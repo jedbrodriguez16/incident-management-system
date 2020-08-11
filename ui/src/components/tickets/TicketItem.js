@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import TicketContext from "../../context/ticket/ticketContext";
 import AuthContext from "../../context/auth/authContext";
+import * as moment from "moment";
 
 const TicketItem = ({ ticket }) => {
   const ticketContext = useContext(TicketContext);
@@ -17,6 +18,9 @@ const TicketItem = ({ ticket }) => {
     status,
     assignedTo,
     resolutionComment,
+    createdDate,
+    createdBy,
+    updatedDate,
   } = ticket;
 
   const onDelete = () => {
@@ -43,6 +47,15 @@ const TicketItem = ({ ticket }) => {
         </li>
         <li>
           <span>Assignee: {assignedTo || "Unassigned"}</span>
+        </li>
+        <li>
+          <span>Updated Date: {moment(updatedDate).calendar()}</span>
+        </li>
+        <li>
+          <span>Reported by: {createdBy}</span>
+        </li>
+        <li>
+          <span>Reported Date: {moment(createdDate).calendar()}</span>
         </li>
         {resolutionComment && (
           <li>
