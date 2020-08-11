@@ -28,9 +28,15 @@ export class IncidentController {
   @inject(types.IIncidentService)
   private readonly _incidentService: IIncidentService;
 
-  @httpGet("/", authorisation(iocContainer, "incident", "get-list"))
-  public getIncidents() {
-    return this._incidentService.getIncidentList();
+  @httpGet(
+    "/",
+    authorisation(iocContainer, "incident", "get-list"),
+    userInfo(iocContainer)
+  )
+  public getIncidents(req: express.Request) {
+    let request: any = req;
+
+    return this._incidentService.getIncidentList(request.userInfo);
   }
 
   @httpGet("/:id", authorisation(iocContainer, "incident", "get-one"))

@@ -60,8 +60,10 @@ const AuthState = (props) => {
         user.groups.length > 0 &&
         user.groups.includes("admin")
       ) {
-        console.log("call get system users");
+        user.role = "admin";
         getSystemUsers();
+      } else {
+        user.role = "user";
       }
 
       dispatch({

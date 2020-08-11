@@ -6,6 +6,15 @@ import types from "../../repositories/types";
 import ServiceBase from "../../../../common/services/ServiceBase";
 import { plainToClass } from "class-transformer";
 import IncidentModel from "../../repositories/models/IncidentModel";
+import UserInfoDto from "../../../../common/services/dto/UserInfoDto";
+import {
+  ViewQuery,
+  ViewSortingEnum,
+} from "../../../../common/repositories/impl/CouchDbRepositoryBase";
+import {
+  ViewIndexNameEnum,
+  ViewDocNameEnum,
+} from "../../repositories/impl/IncidentRepository";
 
 @injectable()
 export default class IncidentService extends ServiceBase
@@ -17,8 +26,33 @@ export default class IncidentService extends ServiceBase
     return IncidentDto;
   }
 
-  public async getIncidentList(): Promise<IncidentDto[]> {
-    let incidentList = await this._incidentRepository.getList();
+  public async getIncidentList(user: UserInfoDto): Promise<IncidentDto[]> {
+    let viewIndexName = ViewIndexNameEnum.Date;
+    let viewKey: string | string[];
+
+    if (user) {
+      if (
+        user.groups &&
+        user.groups.length > 0 &&
+        user.groups.includes("admin")
+      ) {
+        viewIndexName = ViewIndexNameEnum.Date;
+      } else {
+        viewIndexName = ViewIndexNameEnum.Assignee;
+        viewKey = user.username;
+      }
+    } else {
+      viewIndexName = ViewIndexNameEnum.Assignee;
+    }
+
+    let query = new ViewQuery(
+      ViewDocNameEnum.Incident,
+      viewIndexName,
+      ViewSortingEnum.Descending,
+      viewKey
+    );
+
+    let incidentList = await this._incidentRepository.getList(query);
     return this.toDto(incidentList);
   }
 
