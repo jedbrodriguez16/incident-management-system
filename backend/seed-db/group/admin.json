@@ -1,0 +1,51 @@
+{
+  "_id": "admin",
+  "isEnabled": true,
+  "permissions": [
+    {
+      "resource": "authentication",
+      "action": "decrypt",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "create",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "delete",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "assign",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "acknowledge",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "resolve",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "get-list",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "get-one",
+      "isAllowed": true
+    },
+    {
+      "resource": "user",
+      "action": "get-list",
+      "isAllowed": true
+    }
+  ]
+}

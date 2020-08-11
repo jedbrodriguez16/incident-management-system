@@ -1,11 +1,11 @@
 export const DatabaseEnum = {
   Application: {
-    name: "application",
+    name: "application2",
   },
   User: {
-    name: "user",
+    name: "user2",
   },
   Group: {
-    name: "group",
+    name: "group2",
   },
 };

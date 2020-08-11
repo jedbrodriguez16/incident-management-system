@@ -1,0 +1,6 @@
+{
+  "_id": "client-id",
+  "name": "client",
+  "clientSecret": "secret",
+  "isEnabled": true
+}

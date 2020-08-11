@@ -1,0 +1,12 @@
+{
+  "_id": "cd3abedeb3d96bd61b2e688faf063d68",
+  "title": "ticket title",
+  "description": "ticket description",
+  "status": "New",
+  "assignedTo": null,
+  "createdBy": "derek",
+  "createdDate": "2020-08-11T18:03:05.230Z",
+  "updatedBy": "derek",
+  "updatedDate": "2020-08-11T18:03:05.230Z",
+  "docName": "incident"
+}

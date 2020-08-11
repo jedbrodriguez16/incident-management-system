@@ -1,0 +1,26 @@
+{
+  "_id": "user",
+  "isEnabled": true,
+  "permissions": [
+    {
+      "resource": "authentication",
+      "action": "decrypt",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "acknowledge",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "resolve",
+      "isAllowed": true
+    },
+    {
+      "resource": "incident",
+      "action": "get-list",
+      "isAllowed": true
+    }
+  ]
+}

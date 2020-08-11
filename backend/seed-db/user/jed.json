@@ -1,0 +1,7 @@
+{
+  "_id": "jed",
+  "password": "password",
+  "displayName": "Jed Rodriguez",
+  "isEnabled": true,
+  "groups": ["user"]
+}
