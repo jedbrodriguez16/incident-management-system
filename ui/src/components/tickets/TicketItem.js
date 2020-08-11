@@ -10,7 +10,14 @@ const TicketItem = ({ ticket }) => {
   const { deleteTicket, setCurrent, clearCurrent } = ticketContext;
   const { user } = authContext;
 
-  const { id, title, description, status } = ticket;
+  const {
+    id,
+    title,
+    description,
+    status,
+    assignedTo,
+    resolutionComment,
+  } = ticket;
 
   const onDelete = () => {
     deleteTicket(id);
@@ -20,16 +27,7 @@ const TicketItem = ({ ticket }) => {
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
-        {title}{" "}
-        {/* <span
-          style={{ float: "right" }}
-          className={
-            "badge " +
-            (type === "professional" ? "badge-success" : "badge-primary")
-          }
-        >
-          {type.charAt(0).toUpperCase() + type.slice(1)}
-        </span> */}
+        <span>Title: {title}</span>
         <span
           style={{ float: "right" }}
           className={
@@ -40,14 +38,15 @@ const TicketItem = ({ ticket }) => {
         </span>
       </h3>
       <ul className='list'>
-        {/* {email && (
+        <li>
+          <span>Description: {description}</span>
+        </li>
+        <li>
+          <span>Assignee: {assignedTo || "Unassigned"}</span>
+        </li>
+        {resolutionComment && (
           <li>
-            <i className='fas fa-envelope-open' /> {email}
-          </li>
-        )} */}
-        {description && (
-          <li>
-            <i className='fas fa-description' /> {description}
+            <span>Resolution: {resolutionComment}</span>
           </li>
         )}
       </ul>

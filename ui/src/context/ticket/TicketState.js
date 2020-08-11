@@ -8,7 +8,9 @@ import {
   DELETE_TICKET,
   SET_CURRENT,
   CLEAR_CURRENT,
-  UPDATE_TICKET,
+  ASSIGN_TICKET,
+  ACKNOWLEDGE_TICKET,
+  RESOLVE_TICKET,
   FILTER_TICKETS,
   CLEAR_TICKETS,
   CLEAR_FILTER,
@@ -89,8 +91,8 @@ const TicketState = (props) => {
     }
   };
 
-  // Update Ticket
-  const updateTicket = async (ticket) => {
+  // Assign Ticket
+  const assignTicket = async (ticketId, assignee) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -99,14 +101,70 @@ const TicketState = (props) => {
 
     try {
       //todo: get incident host from config
-      const res = await axios.put(
-        `http://localhost:8080/api/incidents/${ticket.id}`,
-        ticket,
+      const res = await axios.post(
+        `http://localhost:8080/api/incidents/assign`,
+        { incidentId: ticketId, username: assignee },
         config
       );
 
       dispatch({
-        type: UPDATE_TICKET,
+        type: ASSIGN_TICKET,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TICKET_ERROR,
+        payload: err.response.data.message,
+      });
+    }
+  };
+
+  // Acknowledge Ticket
+  const acknowledgeTicket = async (ticketId) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      //todo: get incident host from config
+      const res = await axios.post(
+        `http://localhost:8080/api/incidents/acknowledge`,
+        { incidentId: ticketId },
+        config
+      );
+
+      dispatch({
+        type: ACKNOWLEDGE_TICKET,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TICKET_ERROR,
+        payload: err.response.data.message,
+      });
+    }
+  };
+
+  // Resolve Ticket
+  const resolveTicket = async (ticketId, resolutionComment) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      //todo: get incident host from config
+      const res = await axios.post(
+        `http://localhost:8080/api/incidents/resolve`,
+        { incidentId: ticketId, resolutionComment: resolutionComment },
+        config
+      );
+
+      dispatch({
+        type: RESOLVE_TICKET,
         payload: res.data,
       });
     } catch (err) {
@@ -149,12 +207,13 @@ const TicketState = (props) => {
         current: state.current,
         filtered: state.filtered,
         error: state.error,
-
         addTicket,
         deleteTicket,
         setCurrent,
         clearCurrent,
-        updateTicket,
+        assignTicket,
+        acknowledgeTicket,
+        resolveTicket,
         filterTickets,
         clearFilter,
         getTickets,

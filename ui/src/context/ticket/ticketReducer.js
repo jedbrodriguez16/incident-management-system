@@ -4,7 +4,9 @@ import {
   DELETE_TICKET,
   SET_CURRENT,
   CLEAR_CURRENT,
-  UPDATE_TICKET,
+  ASSIGN_TICKET,
+  ACKNOWLEDGE_TICKET,
+  RESOLVE_TICKET,
   FILTER_TICKETS,
   CLEAR_FILTER,
   TICKET_ERROR,
@@ -25,7 +27,9 @@ export default (state, action) => {
         tickets: [action.payload, ...state.tickets],
         loading: false,
       };
-    case UPDATE_TICKET:
+    case ASSIGN_TICKET:
+    case ACKNOWLEDGE_TICKET:
+    case RESOLVE_TICKET:
       return {
         ...state,
         tickets: state.tickets.map((ticket) =>
@@ -33,6 +37,7 @@ export default (state, action) => {
         ),
         loading: false,
       };
+
     case DELETE_TICKET:
       return {
         ...state,

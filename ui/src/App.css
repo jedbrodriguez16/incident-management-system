@@ -240,7 +240,7 @@ p {
 .bg-primary,
 .badge-primary,
 .alert-primary {
-  background: var(--primary-color);
+  background: #222433;
   color: #fff;
 }
 

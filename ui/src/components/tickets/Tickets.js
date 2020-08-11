@@ -3,11 +3,14 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import TicketItem from "./TicketItem";
 import Spinner from "../layout/Spinner";
 import TicketContext from "../../context/ticket/ticketContext";
+import AuthContext from "../../context/auth/authContext";
 
 const Tickets = () => {
   const ticketContext = useContext(TicketContext);
+  const authContext = useContext(AuthContext);
 
   const { tickets, filtered, getTickets, loading } = ticketContext;
+  const { user } = authContext;
 
   useEffect(() => {
     getTickets();
@@ -15,7 +18,11 @@ const Tickets = () => {
   }, []);
 
   if (tickets !== null && tickets.length === 0 && !loading) {
-    return <h4>Please add a ticket</h4>;
+    if (user && user.role === "admin") {
+      return <h4>Please add a ticket</h4>;
+    } else {
+      return <h4>No ticket has been assigned to you</h4>;
+    }
   }
 
   return (

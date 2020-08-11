@@ -23,7 +23,7 @@ const Navbar = ({ title, icon }) => {
 
   const authLinks = (
     <Fragment>
-      <li>Hello, {user && user.displayName} !</li>
+      <li> Hello, {user && user.displayName} !</li>
       <li>
         <a onClick={onLogout} href='#!'>
           <i className='fas fa-sign-out-alt' />{" "}
@@ -35,9 +35,10 @@ const Navbar = ({ title, icon }) => {
 
   const guestLinks = (
     <Fragment>
-      {/* <li>
+      <li>
         <Link to='/about'>About</Link>
-      </li> */}
+      </li>
+      <li style={{ paddingRight: "10px" }}>|</li>
       <li>
         <Link to='/login'>Login</Link>
       </li>
@@ -51,15 +52,7 @@ const Navbar = ({ title, icon }) => {
           <i className={icon} /> {title}
         </Link>
       </h1>
-      <ul>
-        <li>
-          <Link to='/about'>About</Link>
-        </li>
-        <li>
-          {"     "}|{"     "}
-        </li>
-        {isAuthenticated ? authLinks : guestLinks}
-      </ul>
+      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
   );
 };
@@ -71,7 +64,7 @@ Navbar.propTypes = {
 
 Navbar.defaultProps = {
   title: "Incident Management System",
-  icon: "fas fa-id-card-alt",
+  icon: "fas fa-ticket-alt",
 };
 
 export default Navbar;
