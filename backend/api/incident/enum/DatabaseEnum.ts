@@ -1,5 +1,5 @@
 export const DatabaseEnum = {
   Incident: {
-    name: "incident2",
+    name: "incident",
   },
 };

@@ -1,8 +1,8 @@
 HOST=http://admin:admin@localhost:5984
-GROUP_DB=group2
-USER_DB=user2
-APPLICATION_DB=application2
-INCIDENT_DB=incident2
+GROUP_DB=group
+USER_DB=user
+APPLICATION_DB=application
+INCIDENT_DB=incident
 
 echo 'creating and seeding Identity API database...'
 
