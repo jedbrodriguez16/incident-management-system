@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import TicketContext from "../../context/ticket/ticketContext";
+import AuthContext from "../../context/auth/authContext";
 
 const TicketItem = ({ ticket }) => {
   const ticketContext = useContext(TicketContext);
+  const authContext = useContext(AuthContext);
+
   const { deleteTicket, setCurrent, clearCurrent } = ticketContext;
+  const { user } = authContext;
 
   const { id, title, description, status } = ticket;
 
@@ -48,9 +52,12 @@ const TicketItem = ({ ticket }) => {
         )}
       </ul>
       <p>
-        <button className='btn btn-danger btn-sm' onClick={onDelete}>
-          Delete
-        </button>
+        {user && user.role === "admin" && (
+          <button className='btn btn-danger btn-sm' onClick={onDelete}>
+            Delete
+          </button>
+        )}
+
         <button
           style={{ float: "right" }}
           className='btn btn-dark btn-sm'

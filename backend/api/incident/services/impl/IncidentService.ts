@@ -42,7 +42,7 @@ export default class IncidentService extends ServiceBase
         viewKey = user.username;
       }
     } else {
-      viewIndexName = ViewIndexNameEnum.Assignee;
+      viewIndexName = ViewIndexNameEnum.Date;
     }
 
     let query = new ViewQuery(
