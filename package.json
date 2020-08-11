@@ -1,0 +1,27 @@
+{
+  "name": "incident-management-system",
+  "version": "1.0.0",
+  "description": "incident-management-system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd ui && npm install && npm start",
+    "identity": "cd backend/api/identity && npm install && npm start",
+    "incident": "cd backend/api/incident && npm install && npm start",
+    "dep": "cd backend && npm install",
+    "app": "concurrently \"npm run dep\" \"npm run identity\"  \"npm run incident\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jedbrodriguez16/incident-management-system.git"
+  },
+  "author": "Jed Rodriguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jedbrodriguez16/incident-management-system/issues"
+  },
+  "homepage": "https://github.com/jedbrodriguez16/incident-management-system#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
