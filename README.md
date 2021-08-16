@@ -1,6 +1,6 @@
 # incident-management-system
 
-Incident Management System (Full Stack App built with NodeJS, CouchDB & ReactJS)
+Incident Management System
 
 ## Running the App
 
