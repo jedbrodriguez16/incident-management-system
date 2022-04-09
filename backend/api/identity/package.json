@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "nano": "^8.2.2",
     "prettier": "^2.0.5",
     "reflect-metadata": "^0.1.13",
